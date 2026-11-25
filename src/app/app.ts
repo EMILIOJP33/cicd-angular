@@ -8,5 +8,5 @@ import { TodoList } from './todo-list/todo-list';
   templateUrl: './app.html',
 })
 export class App {
-  readonly title = signal('CI/CD Angular');
+  readonly title = signal('CI/CD Angular - Desplegado');
 }
