@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  color: #172033;
+  background: #eef3ff;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(123, 97, 255, 0.22), transparent 34rem),
+    linear-gradient(135deg, #eef3ff 0%, #f8f7ff 50%, #edfaff 100%);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
