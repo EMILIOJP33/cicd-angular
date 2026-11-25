@@ -1,0 +1,7 @@
+<div>
+  <button type="button" (click)="toggle.emit()">
+    {{ item().completed ? '✅' : '⭕' }}
+  </button>
+  <span [class.completed]="item().completed">{{ item().title }}</span>
+  <button type="button" (click)="remove.emit()">Eliminar</button>
+</div>

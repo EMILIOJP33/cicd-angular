@@ -1,0 +1,71 @@
+name: Angular CI/CD
+
+on:
+  # Ejecuta CI en propuestas de cambio dirigidas a main.
+  pull_request:
+    branches:
+      - main
+  # Ejecuta CI y despliegue cuando se actualiza main.
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build y tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Instalar Node 22 con caché de npm
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Instalar dependencias exactas
+        run: npm ci
+
+      - name: Ejecutar tests con cobertura
+        run: |
+          npm run test:ci
+          npm run coverage:check
+
+      - name: Subir informe de cobertura
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: informe-cobertura
+          path: coverage/cicd-angular/
+
+      - name: Compilar Angular
+        run: npx ng build --base-href /cicd-angular/
+
+      - name: Preparar artefacto de GitHub Pages
+        if: github.event_name == 'push'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/cicd-angular/browser
+
+  deploy:
+    name: Desplegar en GitHub Pages
+    needs: build
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Publicar sitio
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,13 @@
+<form (submit)="addTask(); $event.preventDefault()">
+  <label for="new-task">Nueva tarea</label>
+  <input id="new-task" name="newTitle" [(ngModel)]="newTitle" />
+  <button type="submit">Añadir</button>
+</form>
+
+@for (item of todo.items(); track item.id) {
+  <app-todo-item
+    [item]="item"
+    (toggle)="todo.toggle(item.id)"
+    (remove)="todo.remove(item.id)"
+  />
+}
