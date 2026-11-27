@@ -10,4 +10,3 @@ import { TodoList } from './todo-list/todo-list';
 export class App {
   readonly title = signal('CI/CD Angular - Desplegado');
 }
-}}
